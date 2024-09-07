@@ -1,6 +1,9 @@
 
 package com.mycompany.usil_project_03;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -15,7 +18,18 @@ public class Alumno extends Persona{
     }
     
     public void leerCursoAlumno(String nombreArchivo){
-        //Todo
+        try (BufferedReader br= new BufferedReader(new FileReader(nombreArchivo))){
+            String linea;
+            while((linea = br.readLine())!=null){
+                String[] datos = linea.split(",");
+                if(datos.length == 2){
+                    Curso curso = new Curso(datos[0],datos[1]);
+                    listaCursos.add(curso);
+                }
+            }            
+        } catch (IOException e) {
+            System.out.println("Error al leer el archivo:"+ e.getMessage());
+        }
     }
 
     public String getCodigoAlumno() {
