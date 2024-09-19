@@ -1,2 +1,2 @@
-TEPRO, Teoria de la Programacion Orientada a Objetos
-INSICO, Introduccion a Sistemas de Computacion
+TEPROO,Teoría de la Programación Orientada a Objetos
+INSICO,Introducción a Sistemas de Computación
