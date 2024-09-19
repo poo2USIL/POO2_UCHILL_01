@@ -1,0 +1,7 @@
+Cosa1; Carlos; En progreso; Aplicación de Reservas
+Cosa2; Ryan; Pendiente; Aplicación de Reservas
+Cosa3; Alexis; Compleatada; Aplicación de Reservas
+Cosa4; Jef; Pendiente; Aplicación de Reservas
+Cosa5; Thalia; Pendiente; Sistema de Facturación Electrónica
+Engllish; Hugo; Pendiente; Sistema de Facturación Electrónica
+Cosa6; Maria; Compleatada; Sistema de Facturación Electrónica
