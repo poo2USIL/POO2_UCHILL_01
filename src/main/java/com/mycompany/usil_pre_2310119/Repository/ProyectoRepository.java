@@ -10,8 +10,8 @@ public class ProyectoRepository {
     
      public static void guardarProyecto(Proyecto proyecto) throws IOException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
-            writer.write(proyecto.getNombreP());
             writer.newLine();
+            writer.write(proyecto.getNombreP());
         }
     }
     public static List<Proyecto> cargarProyectos() throws IOException {

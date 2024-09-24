@@ -1,7 +1,8 @@
-Cosa1; Carlos; En progreso; Aplicación de Reservas
-Cosa2; Ryan; Pendiente; Aplicación de Reservas
-Cosa3; Alexis; Compleatada; Aplicación de Reservas
-Cosa4; Jef; Pendiente; Aplicación de Reservas
-Cosa5; Thalia; Pendiente; Sistema de Facturación Electrónica
-Engllish; Hugo; Pendiente; Sistema de Facturación Electrónica
-Cosa6; Maria; Compleatada; Sistema de Facturación Electrónica
+Cosa1;Ryan;Pendiente;Aplicación de Reservas
+Cosa2;Carlos;Pendiente;Gestión de Inventario
+Cosa3;Alexis;En progreso;Aplicación de Reservas
+Cosa4;Ryan;Pendiente;Aplicación de Reservas
+Cosa6;Ryan;Completada;Aplicación de Reservas
+Cosa8;Ryan;Pendiente;Gestión de Inventario
+Cosa24;Ryan;En progreso;Plataforma de E-learning
+Cosa69;Ryan;Completada;Sistema de Gestión de Tareas

@@ -2,7 +2,6 @@
 package com.mycompany.usil_pre_2310119.view;
 
 import com.mycompany.usil_pre_2310119.controller.TareaController;
-import com.mycompany.usil_pre_2310119.Repository.TareaRepository;
 import com.mycompany.usil_pre_2310119.controller.ProyectoController;
 import com.mycompany.usil_pre_2310119.model.Proyecto;
 import com.mycompany.usil_pre_2310119.model.Tarea;
@@ -13,9 +12,16 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 public class FrmBuscarTarea extends javax.swing.JFrame {
     
+    private TareaController tareaController;
+    private ProyectoController proyectoController;
+    
     public FrmBuscarTarea() {
         initComponents();
+        tareaController = new TareaController();
+        proyectoController = new ProyectoController();
+        configurarTabla();
         cargarProyectosEnComboBox();
+        cargarTareasEnTabla();
     }
 
     /**
@@ -60,7 +66,7 @@ public class FrmBuscarTarea extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Nombre", "Responsable", "Estado", "Nombre de Proyecto"
+                "Type 1", "Type 2", "Type 3", "Type 4"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -108,59 +114,22 @@ public class FrmBuscarTarea extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        String nombreProyecto = ComboBox3.getSelectedItem().toString();
-        System.out.println("Proyecto seleccionado: " + nombreProyecto);
-        buscarTareasPorProyecto(nombreProyecto);
+        String nombreP = ComboBox3.getSelectedItem().toString();
+        System.out.println("Proyecto seleccionado: " + nombreP);
+        buscarTareasPorProyecto(nombreP);
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnTodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTodosActionPerformed
-        try {
-            List<Tarea> tareas = TareaRepository.listarTareas();
-            DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();            
-            modelo.setRowCount(0);
-            for (Tarea tarea : tareas) {
-                modelo.addRow(new Object[]{
-                    tarea.getNombreT(),
-                    tarea.getResponsable(),
-                    tarea.getEstado(),
-                    tarea.getProyecto().getNombreP()
-                });
-            }
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Error al listar las tareas.");
-            ex.printStackTrace();
-        }
+        cargarTareasEnTabla();
     }//GEN-LAST:event_btnTodosActionPerformed
 
-    private TareaController tareaController = new TareaController();
-    private void buscarTareasPorProyecto(String nombreProyecto) {
-    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-    model.setRowCount(0);
+    private void configurarTabla() {
+        DefaultTableModel model = new DefaultTableModel();
+        model.setColumnIdentifiers(new String[]{"Nombre", "Responsable", "Estado", "Nombre Proyecto"});
 
-    try {
-        List<Tarea> tareas = tareaController.filtrarTareasPorProyecto(nombreProyecto);
-        System.out.println("Cantidad de tareas encontradas para el proyecto: " + tareas.size());
-
-        for (Tarea tarea : tareas) {
-            Object[] fila = {
-                tarea.getNombreT(),
-                tarea.getResponsable(),
-                tarea.getEstado(),
-                tarea.getProyecto().getNombreP()
-            };
-            model.addRow(fila);
-        }
-        if (tareas.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "No se encontraron tareas para este proyecto.", "Información", JOptionPane.INFORMATION_MESSAGE);
-        }
-    } catch (IOException e) {
-        JOptionPane.showMessageDialog(this, "Error al buscar las tareas.", "Error", JOptionPane.ERROR_MESSAGE);
-        e.printStackTrace();
+        jTable1.setModel(model);
     }
-}
     
-    
-    private ProyectoController proyectoController = new ProyectoController();
     private void cargarProyectosEnComboBox() {
         try {
         List<Proyecto> proyectos = proyectoController.listarProyectos();        
@@ -174,6 +143,56 @@ public class FrmBuscarTarea extends javax.swing.JFrame {
         e.printStackTrace();
     }
     }
+    
+    
+    private void buscarTareasPorProyecto(String nombreProyecto) {
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+        
+        try {
+            List<Tarea> tareas = tareaController.filtrarTareasPorProyecto(nombreProyecto);
+            System.out.println("Cantidad de tareas encontradas para el proyecto: " + tareas.size());
+            
+            for (Tarea tarea : tareas) {
+                Object[] fila = {
+                    tarea.getNombreT(),
+                    tarea.getResponsable(),
+                    tarea.getEstado(),
+                    tarea.getProyecto().getNombreP()
+                };
+                model.addRow(fila);
+            }
+            if (tareas.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "No se encontraron tareas para este proyecto.", "Información", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error al buscar las tareas.", "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }
+    
+    private void cargarTareasEnTabla() {
+    try {
+        List<Tarea> tareas = tareaController.listarTareas();
+        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();            
+        modelo.setRowCount(0);
+        for (Tarea tarea : tareas) {
+            modelo.addRow(new Object[]{
+                tarea.getNombreT(),
+                tarea.getResponsable(),
+                tarea.getEstado(),
+                tarea.getProyecto().getNombreP()
+            });
+        }
+    } catch (IOException ex) {
+        JOptionPane.showMessageDialog(null, "Error al listar las tareas.");
+        ex.printStackTrace();
+    }
+    }
+    
+    
+    
+    
     
     /**
      * @param args the command line arguments

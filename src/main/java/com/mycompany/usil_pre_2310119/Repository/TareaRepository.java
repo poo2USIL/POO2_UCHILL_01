@@ -11,11 +11,12 @@ public class TareaRepository {
 
     public static void registrarTarea(Tarea tarea) throws IOException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
-            writer.write(tarea.getNombreT() + "; " +
-                    tarea.getResponsable() + "; " +
-                    tarea.getEstado() + "; " +
-                    tarea.getProyecto().getNombreP());
             writer.newLine();
+            writer.write(tarea.getNombreT() + ";" +
+                    tarea.getResponsable() + ";" +
+                    tarea.getEstado() + ";" +
+                    tarea.getProyecto().getNombreP());
+            
         }
     }
 
