@@ -1,14 +1,11 @@
 
 package com.mycompany.usil_pc1.Model;
 
-import lombok.AllArgsConstructor;
+import java.util.ArrayList;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class UsuarioCalorias {
     private String nombre;
     private int caloriasDesayuno;
@@ -18,4 +15,8 @@ public class UsuarioCalorias {
     private String estadoConsumo;
     private String recomendacion;
     private List<Alimento> alimentosConsumidos;
+    
+    public UsuarioCalorias() {
+        this.alimentosConsumidos = new ArrayList<>();  
+    }
 }

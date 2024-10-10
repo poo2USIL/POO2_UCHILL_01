@@ -3,6 +3,7 @@ package com.mycompany.usil_pc1.View;
 
 import com.mycompany.usil_pc1.Controller.CaloriasController;
 import com.mycompany.usil_pc1.Model.Alimento;
+import com.mycompany.usil_pc1.Model.UsuarioCalorias;
 import java.io.IOException;
 import javax.swing.JOptionPane;
 
@@ -40,7 +41,6 @@ public class FrmMenuCalorias extends javax.swing.JFrame {
 
         jLabel2.setText("Tipo de comida:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Desayuno", "Almuerzo", "Cena" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -139,22 +139,47 @@ public class FrmMenuCalorias extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        String nombreUsuario = txtNombre.getText();
-        String tipoComida = jComboBox1.getSelectedItem().toString();
-        String nombreAlimento = txtAlimento.getText();
-        int porcion = Integer.parseInt(txtRacionUnidad.getText());
-        int calorias = Integer.parseInt(txtCalorias.getText());
-
-        Alimento alimento = new Alimento(nombreUsuario, tipoComida, nombreAlimento, porcion, calorias);
-        
         try {
-            caloriasController.guardarAlimento(alimento);
-            JOptionPane.showMessageDialog(null, "Alimento registrado correctamente.");
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Error al registrar el alimento.");
-            ex.printStackTrace();
+            // Obtener los datos del formulario
+            String nombreUsuario = txtNombre.getText();
+            String nombreAlimento = txtAlimento.getText();
+            String tipoComida = jComboBox1.getSelectedItem().toString();
+            int porcion = Integer.parseInt(txtRacionUnidad.getText());
+            int calorias = Integer.parseInt(txtCalorias.getText());
+
+            if (nombreUsuario.isEmpty() || nombreAlimento.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Por favor, ingrese todos los campos obligatorios.");
+                return;
+            }
+
+            if (porcion <= 0 || calorias <= 0) {
+                JOptionPane.showMessageDialog(this, "La porción y las calorías deben ser valores positivos.");
+                return;
+            }
+
+            Alimento alimento = new Alimento();
+            alimento.setNombreU(nombreUsuario);
+            alimento.setNombreAlimento(nombreAlimento);
+            alimento.setTipoComida(tipoComida);
+            alimento.setPorcion(porcion);
+            alimento.setCalorias(calorias);
+
+            UsuarioCalorias usuario = new UsuarioCalorias();
+            usuario.setNombre(nombreUsuario);
+
+            caloriasController.registrarUsuarioYAlimentos(usuario, alimento);
+
+            JOptionPane.showMessageDialog(this, "Registro exitoso.");
+
+            limpiarCampos();
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Por favor, ingrese valores numéricos válidos para la porción y las calorías.");
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error al registrar el alimento: " + e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado: " + e.getMessage());
         }
-        limpiarCampos();
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void btnTotalCaloriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTotalCaloriasActionPerformed

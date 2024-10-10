@@ -2,7 +2,6 @@
 package com.mycompany.usil_pc1.Repository;
 
 import com.mycompany.usil_pc1.Model.Alimento;
-import com.mycompany.usil_pc1.Model.UsuarioCalorias;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;

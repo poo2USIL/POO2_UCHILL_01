@@ -1,0 +1,4 @@
+Ryan;100;0;0;100;Bajo Consumo;Sugerencia: aumentar la ingesta de proteínas y carbohidratos.
+Ryan;75;0;0;75;Bajo Consumo;Sugerencia: aumentar la ingesta de proteínas y carbohidratos.
+Ryan;85;0;0;85;Bajo Consumo;Sugerencia: aumentar la ingesta de proteínas y carbohidratos.
+Carlos;0;0;250;250;Bajo Consumo;Sugerencia: aumentar la ingesta de proteínas y carbohidratos.

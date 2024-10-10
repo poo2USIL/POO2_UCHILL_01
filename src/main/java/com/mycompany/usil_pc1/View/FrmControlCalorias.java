@@ -1,20 +1,19 @@
 
 package com.mycompany.usil_pc1.View;
 
-import com.mycompany.usil_pc1.Controller.AlimentoController;
-import com.mycompany.usil_pc1.Controller.UsuarioController;
+import com.mycompany.usil_pc1.Controller.CaloriasController;
+import com.mycompany.usil_pc1.Model.Alimento;
 import com.mycompany.usil_pc1.Model.UsuarioCalorias;
 import java.io.IOException;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 public class FrmControlCalorias extends javax.swing.JFrame {
 
-    private AlimentoController alimentoController;
-    private UsuarioController usuarioController;
+    private CaloriasController caloriasController;
     public FrmControlCalorias() {
         initComponents();
-        alimentoController = new AlimentoController();
-        usuarioController = new UsuarioController();
+        caloriasController = new CaloriasController();
         configurarTabla();
     }
 
@@ -170,37 +169,67 @@ public class FrmControlCalorias extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        String nombreUsuario = txtNombreU.getText();
+        String nombreUsuario = txtNombreU.getText();  // Obtener el nombre del usuario
 
         try {
-            UsuarioCalorias usuario = UsuarioController.buscarUsuarioPorNombre(nombreUsuario);
-        if (usuario != null) {
-            jLCaloriasDesayuno.setText(String.valueOf(usuario.getCaloriasDesayuno()));
-            jlCaloriasAlmuerzo.setText(String.valueOf(usuario.getCaloriasAlmuerzo()));
-            jlCaloriasCena.setText(String.valueOf(usuario.getCaloriasCena()));
-            
-            int totalCalorias = usuario.getCaloriasDesayuno() + usuario.getCaloriasAlmuerzo() + usuario.getCaloriasCena();
-            jlCaloriasTotal.setText(String.valueOf(totalCalorias));
+            if (nombreUsuario.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Ingrese el nombre del usuario.");
+                return;
+            }
 
-            String estadoConsumo = UsuarioController.calcularEstadoConsumo(totalCalorias);
-            String recomendacion = UsuarioController.generarRecomendacion(estadoConsumo);
-            
-            jlEstado.setText(estadoConsumo);
-            jlRecomendacion.setText(recomendacion);
-        } else {
-            JOptionPane.showMessageDialog(null, "Usuario no encontrado.");
-        }
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Error al buscar el usuario.");
-            ex.printStackTrace();
+            // Buscar el usuario en el controlador
+            UsuarioCalorias usuarioEncontrado = caloriasController.buscarUsuarioPorNombre(nombreUsuario);
+
+            // Si el usuario no se encuentra, mostrar un mensaje
+            if (usuarioEncontrado == null) {
+                JOptionPane.showMessageDialog(this, "Usuario no encontrado.");
+                return;
+            }
+
+            // Mostrar los datos de calorías acumuladas en las etiquetas
+            jLCaloriasDesayuno.setText(String.valueOf(usuarioEncontrado.getCaloriasDesayuno()));
+            jlCaloriasAlmuerzo.setText(String.valueOf(usuarioEncontrado.getCaloriasAlmuerzo()));
+            jlCaloriasCena.setText(String.valueOf(usuarioEncontrado.getCaloriasCena()));
+            jlCaloriasTotal.setText(String.valueOf(usuarioEncontrado.getTotalCalorias()));
+            jlEstado.setText(usuarioEncontrado.getEstadoConsumo());
+            jlRecomendacion.setText(usuarioEncontrado.getRecomendacion());
+
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+
+            for (Alimento alimento : usuarioEncontrado.getAlimentosConsumidos()) {
+                Object[] rowData = {
+                    alimento.getTipoComida(),
+                    alimento.getNombreAlimento(),
+                    alimento.getPorcion(),
+                    alimento.getCalorias()
+                };
+                model.addRow(rowData);
+            }
+
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar los datos: " + e.getMessage());
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void configurarTabla() {
         DefaultTableModel model = new DefaultTableModel();
-        model.setColumnIdentifiers(new String[]{"Alimento", "Racion Unidad(grs)", "Calorias"});
+
+        model.addColumn("Tipo de Comida");
+        model.addColumn("Nombre del Alimento");
+        model.addColumn("Porción (g)");
+        model.addColumn("Calorías");
 
         jTable1.setModel(model);
+
+        jTable1.getColumnModel().getColumn(0).setPreferredWidth(100);  // Tipo de Comida
+        jTable1.getColumnModel().getColumn(1).setPreferredWidth(200);  // Nombre del Alimento
+        jTable1.getColumnModel().getColumn(2).setPreferredWidth(100);  // Porción (g)
+        jTable1.getColumnModel().getColumn(3).setPreferredWidth(100);  // Calorías
+
+        jTable1.getTableHeader().setReorderingAllowed(false);
+
+        model.setRowCount(0);
     }
     
     
