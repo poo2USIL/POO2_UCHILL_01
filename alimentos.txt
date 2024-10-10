@@ -1,0 +1,8 @@
+Ryan;Desayuno;Pan;100;25
+Jefferson;Almuerzo;Pollo;250;75
+Carlos;Cena;Pizza;300;250
+Thalia;Desayuno;Tortilla;200;150
+Alexis;Desayuno;manzana;100;50
+Ryan;Desayuno;Pera;50;25
+Ryan;Almuerzo;pescado;250;175
+Ryan;Cena;Carne;350;250
